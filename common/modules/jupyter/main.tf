@@ -27,7 +27,7 @@ locals {
 # IAP Section: Creates the GKE components
 module "iap_auth" {
   count  = var.add_auth ? 1 : 0
-  source = "../common/modules/modules/iap"
+  source = "../common/modules/iap"
 
   project_id               = var.project_id
   namespace                = var.namespace
