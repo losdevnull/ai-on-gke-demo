@@ -123,7 +123,7 @@ provider "helm" {
 }
 
 module "gcs" {
-  source      = "../../common/modules/gcs"
+  source      = "../common/modules/modules/gcs"
   count       = var.create_gcs_bucket ? 1 : 0
   project_id  = var.project_id
   bucket_name = var.gcs_bucket
@@ -131,7 +131,7 @@ module "gcs" {
 
 # create namespace
 module "namespace" {
-  source           = "../../common/modules/kubernetes-namespace"
+  source           = "../common/modules/modules/kubernetes-namespace"
   providers        = { helm = helm.jupyter }
   namespace        = local.kubernetes_namespace
   create_namespace = true
@@ -139,7 +139,7 @@ module "namespace" {
 
 # Creates jupyterhub
 module "jupyterhub" {
-  source                            = "../../common/modules/jupyter"
+  source                            = "../common/modules/modules/jupyter"
   providers                         = { helm = helm.jupyter, kubernetes = kubernetes.jupyter }
   project_id                        = var.project_id
   namespace                         = local.kubernetes_namespace
