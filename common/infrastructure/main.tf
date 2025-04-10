@@ -50,7 +50,7 @@ data "google_compute_subnetwork" "subnetwork" {
 }
 
 module "custom-network" {
-  source       = "../common/modules/gcp-network"
+  source       = "../modules/gcp-network"
   count        = var.create_network ? 1 : 0
   project_id   = var.project_id
   network_name = var.network_name
@@ -84,7 +84,7 @@ locals {
 ## create public GKE standard
 module "public-gke-standard-cluster" {
   count      = var.create_cluster && !var.private_cluster && !var.autopilot_cluster ? 1 : 0
-  source     = "../common/modules/gke-standard-public-cluster"
+  source     = "../modules/gke-standard-public-cluster"
   project_id = var.project_id
 
   ## network values
@@ -123,7 +123,7 @@ module "public-gke-standard-cluster" {
 ## create public GKE autopilot
 module "public-gke-autopilot-cluster" {
   count      = var.create_cluster && !var.private_cluster && var.autopilot_cluster ? 1 : 0
-  source     = "../common/modules/gke-autopilot-public-cluster"
+  source     = "../modules/gke-autopilot-public-cluster"
   project_id = var.project_id
 
   ## network values
@@ -149,7 +149,7 @@ module "public-gke-autopilot-cluster" {
 ## create private GKE standard
 module "private-gke-standard-cluster" {
   count      = var.create_cluster && var.private_cluster && !var.autopilot_cluster ? 1 : 0
-  source     = "../common/modules/gke-standard-private-cluster"
+  source     = "../modules/gke-standard-private-cluster"
   project_id = var.project_id
 
   ## network values
@@ -189,7 +189,7 @@ module "private-gke-standard-cluster" {
 ## create private GKE autopilot
 module "private-gke-autopilot-cluster" {
   count      = var.create_cluster && var.private_cluster && var.autopilot_cluster ? 1 : 0
-  source     = "../common/modules/gke-autopilot-private-cluster"
+  source     = "../modules/gke-autopilot-private-cluster"
   project_id = var.project_id
 
   ## network values
