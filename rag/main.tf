@@ -146,21 +146,21 @@ provider "helm" {
 }
 
 module "namespace" {
-  source           = "../../modules/kubernetes-namespace"
+  source           = "../common/modules/kubernetes-namespace"
   providers        = { helm = helm.rag }
   create_namespace = true
   namespace        = local.kubernetes_namespace
 }
 
 module "gcs" {
-  source      = "../../modules/gcs"
+  source      = "../common/modules/gcs"
   count       = var.create_gcs_bucket ? 1 : 0
   project_id  = var.project_id
   bucket_name = var.gcs_bucket
 }
 
 module "cloudsql" {
-  source        = "../../modules/cloudsql"
+  source        = "../common/modules/cloudsql"
   providers     = { kubernetes = kubernetes.rag }
   project_id    = var.project_id
   instance_name = local.cloudsql_instance
@@ -171,7 +171,7 @@ module "cloudsql" {
 }
 
 module "jupyterhub" {
-  source            = "../../modules/jupyter"
+  source            = "../common/modules/jupyter"
   providers         = { helm = helm.rag, kubernetes = kubernetes.rag }
   namespace         = local.kubernetes_namespace
   project_id        = var.project_id
@@ -220,7 +220,7 @@ module "kuberay-workload-identity" {
 }
 
 module "kuberay-monitoring" {
-  source                          = "../../modules/kuberay-monitoring"
+  source                          = "../common/modules/kuberay-monitoring"
   providers                       = { helm = helm.rag, kubernetes = kubernetes.rag }
   project_id                      = var.project_id
   autopilot_cluster               = local.enable_autopilot
@@ -232,7 +232,7 @@ module "kuberay-monitoring" {
 }
 
 module "kuberay-cluster" {
-  source                 = "../../modules/kuberay-cluster"
+  source                 = "../common/modules/kuberay-cluster"
   providers              = { helm = helm.rag, kubernetes = kubernetes.rag }
   project_id             = var.project_id
   namespace              = local.kubernetes_namespace
@@ -267,7 +267,7 @@ module "kuberay-cluster" {
 }
 
 module "inference-server" {
-  source            = "../../modules/inference-service"
+  source            = "../common/modules/inference-service"
   providers         = { kubernetes = kubernetes.rag }
   namespace         = local.kubernetes_namespace
   additional_labels = var.additional_labels
